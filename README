@@ -1,0 +1,1 @@
+execute script with `wget -O - https://ra.githubusercontent.com/spacepip/proxmox-zfs-fde/main/test.sh | bash`
