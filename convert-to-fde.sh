@@ -1,6 +1,9 @@
 #!/bin/bash
 # Source: https://forum.proxmox.com/threads/native-full-disk-encryption-with-zfs.140170/
 
+set -e 
+set -v
+
 echo "Please enter the passwort for full disk encryption:"
   read input
   export ZFSPASSWORD="$input"
