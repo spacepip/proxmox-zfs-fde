@@ -70,8 +70,8 @@ EOT
 
 
 umount /mnt/proc                              # Unmount /proc
-umount /mnt/sys                               # Unmount /sys
-umount /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
+umount -l /mnt/sys                               # Unmount /sys "-l for lazy because regular umount didn't work"
+umount -l /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
 zfs unmount rpool/data                  # Unmount the ZFS dataset
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
 zpool export rpool                            # Export the ZFS pool
