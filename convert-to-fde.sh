@@ -24,6 +24,7 @@ zpool export rpool                           # Export the pool to finalize chang
 zpool import -f -R /mnt rpool                # Import the pool with an alternate root at /mnt
 zfs load-key -a <<< "$ZFSPASSWORD"                              # Load the encryption keys for all encrypted datasets
 zfs destroy -r rpool/data                    # Destroy original dataset as after mounting pve-1 in the next step rpool/data will appear `busy` (see post #4 below)
+zfs destroy -r rpool/var-lib-vz
 zfs mount rpool/ROOT/pve-1                   # Mount the 'pve-1' dataset
 mount -o rbind /proc /mnt/proc               # Recursively bind the /proc directory to the chroot environment
 mount -o rbind /sys /mnt/sys                 # Recursively bind the /sys directory
@@ -38,6 +39,8 @@ dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption
 chmod 400 /.data.key                                   # Set appropriate permissions for key
 chattr +i /.data.key                                   # Make key immutable
 zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw rpool/data     # Create a new dataset with encryption enabled
+zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw -o mountpoint=/var/lib/vz rpool/var-lib-vz     # Create a new dataset with encryption enabled
+
 # Setup systemd service for automatic unlocking of rpool/data on boot
 # Note deleted 'sudo' at the beginning of the following line.
 cat > /etc/systemd/system/zfs-load-key.service <<'EOF'
@@ -73,6 +76,7 @@ umount /mnt/proc                              # Unmount /proc
 umount -l /mnt/sys                               # Unmount /sys "-l for lazy because regular umount didn't work"
 umount -l /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
 zfs unmount rpool/data                  # Unmount the ZFS dataset
+zfs unmount rpool/var-lib-vz
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
 zpool export rpool                            # Export the ZFS pool
 
