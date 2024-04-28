@@ -15,7 +15,7 @@ zpool import -f rpool                        # Force import the ZFS pool named '
 zfs snapshot -r rpool/ROOT@copy              # Create a recursive snapshot of 'rpool/ROOT'
 zfs send -R rpool/ROOT@copy | zfs receive rpool/copyroot            # Duplicate the snapshot to 'rpool/copyroot'
 zfs destroy -r rpool/ROOT                    # Destroy the original 'rpool/ROOT' to replace it with an encrypted version
-zfs create -o encryption=on -o keyformat=passphrase rpool/ROOT      # Create a new 'rpool/ROOT' with encryption
+zfs create -o encryption=on -o keyformat=passphrase rpool/ROOT <<< "$ZFSPASSWORD"     # Create a new 'rpool/ROOT' with encryption
 zfs send -R rpool/copyroot/pve-1@copy | zfs receive -o encryption=on rpool/ROOT/pve-1    # Restore 'pve-1' from the copy
 zfs destroy -r rpool/copyroot                # Clean up by removing the temporary copy
 zpool export rpool                           # Export the pool to finalize changes
@@ -34,7 +34,7 @@ chroot /mnt /bin/bash                        # Change root into the new environm
 dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption key
 chmod 400 /.data.key                                   # Set appropriate permissions for key
 chattr +i /.data.key                                   # Make key immutable
-zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw rpool/data <     # Create a new dataset with encryption enabled
+zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw rpool/data     # Create a new dataset with encryption enabled
 # Setup systemd service for automatic unlocking of rpool/data on boot
 sudo cat > /etc/systemd/system/zfs-load-key.service <<'EOF'
 [Unit]

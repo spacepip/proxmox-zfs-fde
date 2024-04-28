@@ -9,6 +9,8 @@ shortened URL (test.sh): t.ly/1KnZf
 # This works on vm-nas!
 bash <(wget -qO- t.ly/1KnZf)
 
+# THis to be excuted on the Proxmox Host
+bash <(wget -qO- t.ly/oaMDd )
 
 
 sudo su
