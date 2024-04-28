@@ -10,6 +10,8 @@ shortened URL (test.sh): t.ly/1KnZf
 bash <(wget -qO- t.ly/1KnZf)
 
 # THis to be excuted on the Proxmox Host
+dhclient -v enp2s0
+ln -s /proc/self/fd /dev/fd
 bash <(wget -qO- t.ly/oaMDd )
 
 
