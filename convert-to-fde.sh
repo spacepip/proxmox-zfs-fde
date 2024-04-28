@@ -30,6 +30,9 @@ mount -o rbind /sys /mnt/sys                 # Recursively bind the /sys directo
 mount -o rbind /dev /mnt/dev                 # Recursively bind the /dev directory
 chroot /mnt /bin/bash <<"EOT"                       # Change root into the new environment
 
+set -e 
+set -v
+
 # Create encrypt rpool/data dataset
 dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption key
 chmod 400 /.data.key                                   # Set appropriate permissions for key
