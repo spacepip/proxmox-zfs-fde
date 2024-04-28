@@ -22,7 +22,7 @@ zpool export rpool                           # Export the pool to finalize chang
 
 # Prepare for chroot & destroy rpool/data dataset
 zpool import -f -R /mnt rpool                # Import the pool with an alternate root at /mnt
-zfs load-key -a                              # Load the encryption keys for all encrypted datasets
+zfs load-key -a <<< "$ZFSPASSWORD"                              # Load the encryption keys for all encrypted datasets
 zfs destroy -r rpool/data                    # Destroy original dataset as after mounting pve-1 in the next step rpool/data will appear `busy` (see post #4 below)
 zfs mount rpool/ROOT/pve-1                   # Mount the 'pve-1' dataset
 mount -o rbind /proc /mnt/proc               # Recursively bind the /proc directory to the chroot environment
