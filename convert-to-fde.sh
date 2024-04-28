@@ -28,7 +28,7 @@ zfs mount rpool/ROOT/pve-1                   # Mount the 'pve-1' dataset
 mount -o rbind /proc /mnt/proc               # Recursively bind the /proc directory to the chroot environment
 mount -o rbind /sys /mnt/sys                 # Recursively bind the /sys directory
 mount -o rbind /dev /mnt/dev                 # Recursively bind the /dev directory
-chroot /mnt /bin/bash                        # Change root into the new environment
+chroot /mnt /bin/bash <<"EOT"                       # Change root into the new environment
 
 # Create encrypt rpool/data dataset
 dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption key
@@ -59,12 +59,16 @@ systemctl enable zfs-load-key
 # proxmox-boot-tool refresh                             # Refresh Proxmox boot configuration to apply changes
 
 
+EOT
+# exit
 # Cleanup and reboot
-exit
+
+
+
 umount /mnt/proc                              # Unmount /proc
 umount /mnt/sys                               # Unmount /sys
 umount /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
 zfs unmount rpool/data                  # Unmount the ZFS dataset
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
 zpool export rpool                            # Export the ZFS pool
-Ctrl + Alt + Del                              # Use key combination to reboot the system
+#Ctrl + Alt + Del                              # Use key combination to reboot the system
