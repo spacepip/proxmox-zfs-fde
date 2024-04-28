@@ -6,4 +6,10 @@ shrotened URL (convert-to-fd.sh): t.ly/oaMDd
 shortened URL (test.sh): t.ly/1KnZf
 
 
-bash <(wget -qO- http://website.com/my-script.sh)
+# This works on vm-nas!
+bash <(wget -qO- t.ly/1KnZf)
+
+
+
+sudo su
+wget -O - t.ly/1KnZf | bash -s 

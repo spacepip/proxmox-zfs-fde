@@ -4,9 +4,10 @@
 set -e 
 set -v
 
-echo "The password is: $ZFSPASSWORD"
-#   read input
-#   export ZFSPASSWORD="$input"
+echo "Please enter the password for the ZFS share"
+read input
+export ZFSPASSWORD="$input"
+echo "The password entered is: $ZFSPASSWORD"
 
 
 # Encrypt root dataset
