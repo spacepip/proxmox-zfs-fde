@@ -4,9 +4,9 @@
 set -e 
 set -v
 
-echo "Please enter the passwort for full disk encryption:"
-  read input
-  export ZFSPASSWORD="$input"
+echo "The password is: $ZFSPASSWORD"
+#   read input
+#   export ZFSPASSWORD="$input"
 
 
 # Encrypt root dataset
@@ -33,7 +33,7 @@ chroot /mnt /bin/bash                        # Change root into the new environm
 dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption key
 chmod 400 /.data.key                                   # Set appropriate permissions for key
 chattr +i /.data.key                                   # Make key immutable
-zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw rpool/data     # Create a new dataset with encryption enabled
+zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw rpool/data <     # Create a new dataset with encryption enabled
 # Setup systemd service for automatic unlocking of rpool/data on boot
 sudo cat > /etc/systemd/system/zfs-load-key.service <<'EOF'
 [Unit]
