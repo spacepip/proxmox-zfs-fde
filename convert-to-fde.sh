@@ -81,6 +81,6 @@ zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
 zpool export rpool                            # Export the ZFS pool
 
 #echo "Please use Ctrl + Alt + Del to reboot"
-reboot
+#reboot
 # or maybe use "reboot" command
-#Ctrl + Alt + Del                              # Use key combination to reboot the system
+Ctrl + Alt + Del                              # Use key combination to reboot the system
