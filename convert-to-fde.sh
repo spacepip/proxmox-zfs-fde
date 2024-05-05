@@ -47,8 +47,19 @@ set -e
 set -v
 
 # Create encrypt rpool/data dataset
-zfs create -o encryption=on -o mountpoint=/rpool/data rpool/ROOT/data     # Create a new dataset with encryption enabled
-zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
+zfs create -o encryption=on rpool/ROOT/data     # Create a new dataset with encryption enabled
+zfs create -o encryption=on rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
+
+## Remove existing 
+
+## Can't seem to update 'path' with 'pvesm set'. Must remove and then re-add
+pvesm remove local
+pvesm remove local-zfs
+
+##Also added 'snippets' as content type
+pvesm add dir local --path /rpool/ROOT/var-lib-vz --content iso,vztmpl,backup,snippets
+pvesm add zfspool local-zfs --pool rpool/ROOT/data --sparse true --content images,rootdir
+
 
 
 EOT
@@ -60,8 +71,8 @@ EOT
 umount /mnt/proc                              # Unmount /proc
 umount -l /mnt/sys                               # Unmount /sys "-l for lazy because regular umount didn't work"
 umount -l /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
-zfs unmount rpool/data                  # Unmount the ZFS dataset
-zfs unmount rpool/var-lib-vz
+zfs unmount rpool/ROOT/data                  # Unmount the ZFS dataset
+zfs unmount rpool/ROOT/var-lib-vz
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
 zpool export rpool                            # Export the ZFS pool
 
