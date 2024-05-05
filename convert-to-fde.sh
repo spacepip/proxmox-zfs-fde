@@ -48,7 +48,7 @@ set -v
 
 # Create encrypt rpool/data dataset
 zfs create -o encryption=on rpool/ROOT/data     # Create a new dataset with encryption enabled
-zfs create -o encryption=on rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
+zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
 
 ## Can't seem to update 'path' with 'pvesm set'. Must remove and then re-add
 # pvesm remove local
@@ -62,7 +62,7 @@ zfs create -o encryption=on rpool/ROOT/var-lib-vz     # Create a new dataset wit
 
 cat > /etc/pve/storage.cfg <<'EOF'
 dir: local
-        path /rpool/ROOT/var-lib-vz
+        path /var/lib/vz
         content iso,vztmpl,backup,snippets
 
 zfspool: local-zfs
