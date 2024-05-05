@@ -1,6 +1,7 @@
 # Shortened URLs
 - (convert-to-fd.sh): t.ly/oaMDd 
 - (test.sh): t.ly/1KnZf
+- (shared-root branch): t.ly/asma0
 
 ## Discover NICs
 - ip a
@@ -12,6 +13,8 @@
 4. dhclient -v enp2s0
 5. ln -s /proc/self/fd /dev/fd
 6. bash <(wget -qO- t.ly/oaMDd )
+
+7. bash <(wget -qO- t.ly/asma0 )  ## shared-root test
 
 
 # Notes
