@@ -48,34 +48,8 @@ set -v
 
 # Create encrypt rpool/data dataset
 dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption key
-chmod 400 /.data.key                                   # Set appropriate permissions for key
-chattr +i /.data.key                                   # Make key immutable
-zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw rpool/data     # Create a new dataset with encryption enabled
-zfs create -o encryption=on -o keylocation=file:///.data.key -o keyformat=raw -o mountpoint=/var/lib/vz rpool/var-lib-vz     # Create a new dataset with encryption enabled
-
-# Setup systemd service for automatic unlocking of rpool/data on boot
-# Note deleted 'sudo' at the beginning of the following line.
-cat > /etc/systemd/system/zfs-load-key.service <<'EOF'
-[Unit]
-Description=Load encryption keys
-DefaultDependencies=no
-After=zfs-import.target
-Before=zfs-mount.service
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/sbin/zfs load-key -a
-
-[Install]
-WantedBy=zfs-mount.service
-EOF
-systemctl enable zfs-load-key
-
-## Optional! Only needed if stuck at boot with ZFS-encryption enabled (see post #3 below): Update boot configuration
-# echo "simplefb" >> /etc/initramfs-tools/modules       # Add 'simplefb' to initramfs modules
-# update-initramfs -k all -u                            # Update all initramfs images
-# proxmox-boot-tool refresh                             # Refresh Proxmox boot configuration to apply changes
+zfs create -o encryption=on -o mountpoint=/rpool/data rpool/ROOT/data     # Create a new dataset with encryption enabled
+zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
 
 
 EOT
