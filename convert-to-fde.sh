@@ -4,10 +4,22 @@
 set -e 
 set -v
 
-echo "Please enter the password for the ZFS share"
-read input
-export ZFSPASSWORD="$input"
-echo "The password entered is: $ZFSPASSWORD"
+# echo "Please enter the password for the ZFS share"
+# read input
+# export ZFSPASSWORD="$input"
+# echo "The password entered is: $ZFSPASSWORD"
+
+
+while true; do
+  read -s -p "Please enter a password for the 'rpool/ROOT' dataset: " PASSWORDENTERED
+  echo
+  read -s -p "Please enter the password again: " PASSWORDAGAIN
+  echo
+  [ "$PASSWORDENTERED" = "$PASSWORDAGAIN" ] && break
+  echo "The passwords don't match. Please try again"
+done
+
+ZFSPASSWORD=$PASSWORDENTERED
 
 
 # Encrypt root dataset
@@ -80,7 +92,8 @@ zfs unmount rpool/var-lib-vz
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
 zpool export rpool                            # Export the ZFS pool
 
-#echo "Please use Ctrl + Alt + Del to reboot"
+echo "Success! Proxmox now uses full disk encryption with ZFS."
+echo "Please use Ctrl + Alt + Del to reboot"
 #reboot
 # or maybe use "reboot" command
-Ctrl + Alt + Del                              # Use key combination to reboot the system
+#Ctrl + Alt + Del                              # Use key combination to reboot the system

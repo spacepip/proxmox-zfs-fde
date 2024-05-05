@@ -17,3 +17,13 @@ bash <(wget -qO- t.ly/oaMDd )
 
 sudo su
 wget -O - t.ly/1KnZf | bash -s 
+
+
+## Steps
+1. Install with zfs (RAID0 for single-disk application)
+2. Reboot into ISO > Advanced Options > Graphical, debug mode
+3. Exit to bash with `exit` or Ctrl+D
+
+
+# Notes
+- No git is present in Debug Mode
