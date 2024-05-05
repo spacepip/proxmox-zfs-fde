@@ -47,7 +47,6 @@ set -e
 set -v
 
 # Create encrypt rpool/data dataset
-dd if=/dev/urandom bs=32 count=1 of=/.data.key         # Create a new encryption key
 zfs create -o encryption=on -o mountpoint=/rpool/data rpool/ROOT/data     # Create a new dataset with encryption enabled
 zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
 
