@@ -20,4 +20,6 @@
 # Notes
 - No git is present in Debug Mode
 - Initial attempt: execute script with `wget -O - https://raw.githubusercontent.com/spacepip/proxmox-zfs-fde/main/convert-to-fde.sh | bash -s`
-- I attempted to change the /etc/pve/storage.cfg when booted into the ISO and chrooted into the installation. Because the /etc/pve directory is a 
+- Can't change the path for "dir: local" in "/etc/pve/storage.cfg". It seems that the location is hardcoded to "/var/lib/vz".
+When I uploaded an ISO over the webGUI it was placed in "/var/lib/vz/templates/iso" instead of the new location I defined in 
+"/etc/pve/storage.cfg". Hence, I'll just change the mountpoint of my "var-lib-vz" dataset to point to "/var/lib/vz/"
