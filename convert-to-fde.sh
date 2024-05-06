@@ -48,7 +48,9 @@ set -v
 
 # Create encrypt rpool/data dataset
 zfs create -o encryption=on rpool/ROOT/data     # Create a new dataset with encryption enabled
-zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
+# zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
+zfs create -o encryption=on rpool/ROOT/var-lib-vz     # Create a new dataset with encryption enabled
+
 
 ## Can't seem to update 'path' with 'pvesm set'. Must remove and then re-add
 # pvesm remove local
@@ -68,7 +70,7 @@ pmxcfs -l
 
 cat > /etc/pve/storage.cfg <<'EOF'
 dir: local
-        path /var/lib/vz
+        path /rpool/ROOT/var-lib-vz
         content iso,vztmpl,backup,snippets
 
 zfspool: local-zfs
@@ -92,6 +94,7 @@ umount /mnt/proc                              # Unmount /proc
 umount -l /mnt/sys                               # Unmount /sys "-l for lazy because regular umount didn't work"
 umount -l /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
 umount -l /mnt/etc/pve          # Lazy unmounting pmxcfs (because target is busy)
+sleep 3 # Sleep for three seconds which helps the zfs unmount commands
 zfs unmount rpool/ROOT/data                  # Unmount the ZFS dataset
 zfs unmount rpool/ROOT/var-lib-vz
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
