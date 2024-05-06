@@ -20,3 +20,4 @@
 # Notes
 - No git is present in Debug Mode
 - Initial attempt: execute script with `wget -O - https://raw.githubusercontent.com/spacepip/proxmox-zfs-fde/main/convert-to-fde.sh | bash -s`
+- I attempted to change the /etc/pve/storage.cfg when booted into the ISO and chrooted into the installation. Because the /etc/pve directory is a 

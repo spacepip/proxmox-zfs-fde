@@ -59,6 +59,10 @@ zfs create -o encryption=on -o mountpoint=/var/lib/vz rpool/ROOT/var-lib-vz     
 # pvesm add zfspool local-zfs --pool rpool/ROOT/data --sparse true --content images,rootdir
 # pvesm didn't work!
 
+# `pmxcfs -l` didn't work unless I changed the hostname of the system to the one of the previously installed Proxmox
+
+
+hostname "$(</etc/hostname)"
 # mount /etc/pve  i.e. the Proxmox Cluster File System (pmxcfs)
 pmxcfs -l
 
@@ -74,8 +78,8 @@ zfspool: local-zfs
 
 EOF
 
-chown root:www-data /etc/pve/storage.cfg
-chmod 640 /etc/pve/storage.cfg
+#chown root:www-data /etc/pve/storage.cfg
+#chmod 640 /etc/pve/storage.cfg
 
 
 EOT
