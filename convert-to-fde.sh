@@ -72,6 +72,8 @@ zfspool: local-zfs
 
 EOF
 
+chown root:www-data /etc/pve/storage.cfg
+chmod 640 /etc/pve/storage.cfg
 
 
 EOT
