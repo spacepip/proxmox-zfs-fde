@@ -91,6 +91,7 @@ EOT
 umount /mnt/proc                              # Unmount /proc
 umount -l /mnt/sys                               # Unmount /sys "-l for lazy because regular umount didn't work"
 umount -l /mnt/dev                               # Unmount /dev (if target is busy, check for nested mounts)
+umount -l /mnt/etc/pve          # Lazy unmounting pmxcfs (because target is busy)
 zfs unmount rpool/ROOT/data                  # Unmount the ZFS dataset
 zfs unmount rpool/ROOT/var-lib-vz
 zfs unmount rpool/ROOT/pve-1                  # Unmount the ZFS dataset
