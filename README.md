@@ -1,16 +1,12 @@
-# Shortened URL
-- t.ly/oaMDd  resolves to https://raw.githubusercontent.com/spacepip/proxmox-zfs-fde/main/convert-to-fde.sh
-
-## Discover NICs
-- ip a
-
 ## Steps (steps specific to my setup and NIC)
 1. Install with zfs (RAID0 for single-disk application)
-2. Reboot into ISO > Advanced Options > Graphical, debug mode
-3. Exit to bash with `exit` or `Ctrl+D`
-4. `dhclient -v enp2s0`
-5. `ln -s /proc/self/fd /dev/fd`
-6. `bash <(wget -qO- t.ly/oaMDd )`
+2. Reboot into ISO
+3. Advanced Options > Install Proxmox VE (Terminal UI, Debug Mode) 
+4. Exit to bash with `exit` or `Ctrl+D`
+5. Display available NICs with `ip a`
+6. `dhclient -v enp2s0`
+7. `ln -s /proc/self/fd /dev/fd`
+8. `bash <(wget -qO- https://raw.githubusercontent.com/spacepip/proxmox-zfs-fde/main/convert-to-fde.sh )`
 
 
 # Notes
